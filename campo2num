@@ -1,0 +1,4 @@
+#!/bin/sh
+#Llama al programa auxiliar opc1 pasandole el valor de la expreson regular que se pase como argumento a este script.
+./opc1 -v RE="$1" ${2:-./data/CataDatosCSV.campos}
+

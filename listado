@@ -1,0 +1,16 @@
+#!/usr/bin/awk -f
+BEGIN {FS=";"}
+NR==1{next;}
+#Si algun campo hace matching con la expresion regular que se le pasa...
+$cn~ereg{
+	#Susituye las comillas por nada
+	gsub("\"","");
+	#Imprime el titulo del conjunto y la fecha entre parentesis
+	print $1 ": (" $14 ")";
+	#Imprime el campo que se desee debajo
+	print "  " $cn "\n";
+}
+END{
+	}
+
+

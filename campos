@@ -1,0 +1,16 @@
+#!/usr/bin/awk -f
+BEGIN {FS=DEL;maxnf=0}
+NR==1{
+	#Guardo en la posicion numero del campo actual su valor
+	for (nf=1;nf<=NF;nf++) {
+	      cname[nf] = $nf ;
+	}
+	#Cojo el valor maximo de campos
+	if(NF>maxnf) maxnf = NF;
+}
+END{
+	for (i=1;i<maxnf ;i++) {
+		print i ":" cname[i];
+	}
+}
+

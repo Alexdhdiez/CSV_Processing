@@ -1,0 +1,18 @@
+#!/bin/sh
+#Descarga del primer fichero
+curl https://datosabiertos.jcyl.es/web/jcyl/risp/es/ciencia-tecnologia/general/1284166186527.csv > ./data/CataDatosRaw.csv
+#Transformación del fichero a formato UTF-8
+iconv -f ISO-8859-15 -t UTF-8 ./data/CataDatosRaw.csv > ./data/CataDatosJCyL.csv
+echo Normalizando... Tomará unos segundos
+#Normalización del archivo
+./ecsv2csv
+#Creacion del fichero con los campos y el número que tiene cada uno
+echo Creando campos...
+./campos -v DEL=";" data/CataDatosCSV.csv > data/CataDatosCSV.campos
+#Creacion de listados finales y filtrado de la fecha
+echo Creando listados...
+nurl=$(./campo2num 'Enlace al.*')
+./listado -v cn=${nurl} ereg=.* data/CataDatosCSV.csv | ./convfecha > data/CataListURLs.list
+nsec=$(./campo2num 'Sector')
+./listado -v cn=${nsec} ereg=.* data/CataDatosCSV.csv | ./convfecha > data/CataListSectores.list
+./listado -v cn=${nsec} ereg=.*[Ss]alud.* data/CataDatosCSV.csv | ./convfecha > data/CataListSectorSalud.list

@@ -1,0 +1,15 @@
+#!/bin/sh
+cd data
+#Borrar la primera linea
+sed -i '1d' CataDatosJCyL.csv
+#La siguiente instruccion:
+#1. Crea una etiqueta al empezar a recorrer el archivo (x)
+#2. Busca un registro que acabe en ;
+#3. -Sed incluye la linea 'match' en su espacio de patrones
+#   -N incluye la siguiente linea en el espacio de patrones (ahora hay 2)
+#   -Hace la sustitucion que se propone en s para lo que hay DENTRO del espacio
+#   -Salta (branch) a la etiqueta para empezar de nuevo
+sed -i ':x /;/ {N;s/[^;]\n//g; bx}' CataDatosJCyL.csv
+cp CataDatosJCyL.csv CataDatosCSV.csv
+cd ..
+
